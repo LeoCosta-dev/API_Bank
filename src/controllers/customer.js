@@ -1,4 +1,4 @@
-const Validator = require("../services/Validator")
+const Validator = require("../services/ValidatorCustomer")
 const Customer = require("../model/Customer")
 const CustomerDAO = require("../DAO/CustomerDAO")
 

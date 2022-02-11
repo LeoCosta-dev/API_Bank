@@ -1,6 +1,6 @@
 class ValidatorCount{
-    static cpf(cpf){
-        if(cpf && typeof cpf == "number" && `${cpf}`.length == 11){
+    static deposit(value){
+        if(value && typeof value == "number" && value <= 2000 && value > 0){
             return true
         } else {
             return false
