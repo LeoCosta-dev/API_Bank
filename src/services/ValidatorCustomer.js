@@ -1,4 +1,4 @@
-class Validator{
+class ValidatorCustomer{
     static cpf(cpf){
         if(cpf && typeof cpf == "number" && `${cpf}`.length == 11){
             return true
@@ -8,4 +8,4 @@ class Validator{
     }
 }
 
-module.exports = Validator;
+module.exports = ValidatorCustomer;
