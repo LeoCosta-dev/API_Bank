@@ -14,17 +14,20 @@ class Count{
         }
     }
     transfer(countDestination, value){
-        if(countDestination && value && this.bankDraft(value)){
-            return true
+        if(ValidatorCount.transfer(this.bankBalance, countDestination, value)){
+            this.bankDraft(value)
+            countDestination.deposit(value)
+            console.log("Transferência efetuada com sucesso!")
         } else {
-            return false
+            console.log("Erro ao tentar efetuar transação, revise os dados e tente novamente mais tarde.")
         }
     }
     bankDraft(value){
-        if(value && typeof value == "number" && value <= this.bankBalance){
-            return true
+        if(ValidatorCount.bankDraft(value, this.bankBalance)){
+            this.bankBalance = this.bankBalance - value
+            console.log("Saque efetuado com sucesso, seu saldo atual é de: " + this.bankBalance)
         } else {
-            return false
+            console.log("Erro na transação, saldo insuficiente!")
         }
     }
 }
