@@ -13,11 +13,19 @@ class Count{
             console.log("Valor inválido.");
         }
     }
-    transfer(){
-
+    transfer(countDestination, value){
+        if(countDestination && value && this.bankDraft(value)){
+            return true
+        } else {
+            return false
+        }
     }
-    bankDraft(){
-
+    bankDraft(value){
+        if(value && typeof value == "number" && value <= this.bankBalance){
+            return true
+        } else {
+            return false
+        }
     }
 }
 
