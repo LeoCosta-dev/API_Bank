@@ -7,8 +7,8 @@ conection.connect((e) => {
         console.log(e)
     } else {
         console.log("Conectado com sucesso ao banco de dados!")
+        app.listen(PORT, () => {
+            console.log(`Servido rodadando na porta ${PORT}.`)
+        })
     }
-    app.listen(PORT, () => {
-        console.log(`Servido rodadando na porta ${PORT}.`)
-    })
 })
