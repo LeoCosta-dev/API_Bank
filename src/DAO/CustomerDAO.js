@@ -37,6 +37,18 @@ class CustomerDAO{
             }
         })
     }
+    static listCustomerForCPF(cpf){ // Lista um cliente de CPF específico por meio do verbo GET.
+        const query = `
+        SELECT * FROM CUSTOMER WHERE CPF = ${cpf}
+        `
+        conection.query(query, (e, result) => {
+            if(e){
+                return e
+            } else {
+                return result
+            }
+        })
+    }
     static alterCustomer(id, values){ // Altera dados de um cliente de id específico por meio do verbo PATCH.
         const query = `
         UPDATE 'CUSTOMER' SET ? WHERE CCUSTOMER_ID = ?
