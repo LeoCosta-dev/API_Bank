@@ -1,7 +1,7 @@
 const conection = require("../Infra/conection");
 
 class CountDAO{
-    static createCount(count){
+    static createCount(count){ // Criar a conta no banco de dados por meio do verbo POST.
         const query = `
         INSERT INTO 'COUNT' SET ?
         `
@@ -13,11 +13,11 @@ class CountDAO{
             }
         })
     }
-    static listCount(){
+    static listCount(){ // Lista todas as contas existentes por meio do verbo GET.
         const query = `
-        SELECT * FROM COUNT
+        SELECT * FROM 'COUNT'
         `
-        conection.query(query, (e, result) => {
+        conection.query(query, (e, result) => { // Result é a resposta recebida pelo banco de dados em caso de sucesso.
             if(e){
                 return e
             } else {
@@ -25,7 +25,7 @@ class CountDAO{
             }
         })
     }
-    static listCountForId(id){
+    static listCountForId(id){ // Lista uma conta de id específico por meio do verbo GET.
         const query = `
         SELECT * FROM COUNT WHERE COUNT_ID = ${id}
         `
@@ -37,11 +37,11 @@ class CountDAO{
             }
         })
     }
-    static alterCount(id, values){
+    static alterCount(id, values){ // Altera dados de uma conta de id específico por meio do verbo PATCH.
         const query = `
         UPDATE 'COUNT' SET ? WHERE COUNT_ID = ?
         `
-        conection.query(query, [id, values], (e, result) => {
+        conection.query(query, [values, id], (e, result) => {
             if(e){
                 return e
             } else {
@@ -49,7 +49,7 @@ class CountDAO{
             }
         })
     }
-    static deleteCount(id){
+    static deleteCount(id){ // Excluí a conta de um id específico por meio do verbo DELETE.
         const query = `
         DELETE FROM 'COUNT' WHERE COUNT_ID = ?
         `
