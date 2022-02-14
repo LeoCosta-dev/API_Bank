@@ -9,15 +9,15 @@ class Customer{
         this.BANK_BALANCE = BANK_BALANCE // iniciado por padrão em zero
     }
     deposit(deposit){
-        if(ValidatorCount.deposit(deposit)){
-            this.BANK_BALANCE = this.BANK_BALANCE + deposit
+        if(Validator.deposit(deposit)){
+            this.BANK_BALANCE = `${parseFloat(this.BANK_BALANCE) + parseFloat(deposit)}`
         } else {
             console.log("Valor inválido.");
         }
     }
     bankDraft(value){
         if(Validator.bankDraft(value, this.BANK_BALANCE)){
-            this.BANK_BALANCE = this.BANK_BALANCE - value
+            this.BANK_BALANCE = `${parseFloat(this.BANK_BALANCE) - parseFloat(value)}`
             console.log("Saque efetuado com sucesso, seu saldo atual é de: " + this.BANK_BALANCE)
         } else {
             console.log("Erro na transação, saldo insuficiente!")
