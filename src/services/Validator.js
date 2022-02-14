@@ -1,16 +1,20 @@
 const CustomerDAO = require('../DAO/CustomerDAO')
 
 class Validator{
-    static exist(cpf){
-        const exist = CustomerDAO.listCustomerForCPF(cpf)
-        if(JSON.stringify(exist) == JSON.stringify({})){
-            return true
-        } else {
-            return false
+    static async exist(cpf){
+        try{
+            const exist = await CustomerDAO.listCustomerForCPF(cpf)
+            if(!exist.CPF){
+                return true
+            } else {
+                return false
+            }
+        } catch (e) {
+            console.log(e.message)
         }
     }
     static cpf(cpf){
-        if(cpf && typeof cpf == "number" && `${cpf}`.length == 11){
+        if(cpf && typeof cpf == "string" && `${cpf}`.length == 11){
             return true
         } else {
             return false
@@ -18,6 +22,13 @@ class Validator{
     }
     static name(name){
         if(name && typeof name == 'string' && name.length >=3){
+            return true
+        } else {
+            return false
+        }
+    }
+    static async customer(cpf, firstName, lastName){
+        if(await this.exist(cpf) && this.cpf(cpf) && this.name(firstName) && this.name(lastName)){
             return true
         } else {
             return false

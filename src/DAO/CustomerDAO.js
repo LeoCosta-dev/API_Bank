@@ -1,5 +1,4 @@
 const conection = require('../Infra/conection')
-const Customer = require('../model/Customer')
 
 class CustomerDAO{
     static createCustomer(customer){ // Criar o cliente no banco de dados por meio do verbo POST.
@@ -46,14 +45,14 @@ class CustomerDAO{
     }
     static listCustomerForCPF(cpf){ // Lista um cliente de CPF específico por meio do verbo GET.
         const query = `
-        SELECT * FROM CUSTOMER WHERE CPF = ${cpf}
+        SELECT * FROM CUSTOMER WHERE CPF = "${cpf}"
         `
         return new Promise((resolve, reject) => {
             conection.get(query, (e, result) => {
                 if(e){
                     reject({ "mensagem": e.message, "error": true })
                 } else {
-                    resolve({result})
+                    resolve({...result})
                 }
             })
         })
