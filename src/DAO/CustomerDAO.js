@@ -1,76 +1,89 @@
 const conection = require('../Infra/conection')
+const Customer = require('../model/Customer')
 
 class CustomerDAO{
     static createCustomer(customer){ // Criar o cliente no banco de dados por meio do verbo POST.
         const query = `
-        INSERT INTO 'Customer' SET ?
+        INSERT INTO "CUSTOMER" (CPF, FIRST_NAME, LAST_NAME, AGENCY, COUNT_NUMBER, BANK_BALANCE) VALUES (?,?,?,?,?,?)
         `
-        conection.query(query, customer, (e) => {
-            if(e){
-                return e
-            } else {
-                return customer
-            }
+        return new Promise((resolve, reject) => {
+            conection.run(query, Object.values(customer), (e) => {
+                if(e){
+                    reject("Erro ao criar Cliente!", {erro: e.message})
+                } else {
+                    resolve({Customer: customer})
+                }
+            })
         })
     }
-    static listCustomer(){ // Lista todas os clientes existentes por meio do verbo GET.
+    static async listCustomer(){ // Lista todas os clientes existentes por meio do verbo GET.
         const query = `
-        SELECT * FROM 'CUSTOMER'
+        SELECT * FROM "CUSTOMER"
         `
-        conection.query(query, (e, result) => { // Result é a resposta recebida pelo banco de dados em caso de sucesso.
-            if(e){
-                return e
-            } else {
-                return result
-            }
+        return new Promise((resolve, reject) => {
+            conection.all(query, (e, result) => { // Result é a resposta recebida pelo banco de dados em caso de sucesso.
+                if(e){
+                    reject({ "mensagem": err.message, "error": true })
+                } else {
+                    resolve({result})
+                }
+            })
         })
     }
     static listCustomerForId(id){ // Lista um cliente de id específico por meio do verbo GET.
         const query = `
         SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = ${id}
         `
-        conection.query(query, (e, result) => {
-            if(e){
-                return e
-            } else {
-                return result
-            }
+        return new Promise((resolve, reject) => {
+            conection.get(query, (e, result) => {
+                if(e){
+                    reject({ "mensagem": err.message, "error": true })
+                } else {
+                    resolve({result})
+                }
+            })
         })
     }
     static listCustomerForCPF(cpf){ // Lista um cliente de CPF específico por meio do verbo GET.
         const query = `
         SELECT * FROM CUSTOMER WHERE CPF = ${cpf}
         `
-        conection.query(query, (e, result) => {
-            if(e){
-                return e
-            } else {
-                return result
-            }
+        return new Promise((resolve, reject) => {
+            conection.get(query, (e, result) => {
+                if(e){
+                    reject({ "mensagem": e.message, "error": true })
+                } else {
+                    resolve({result})
+                }
+            })
         })
     }
     static alterCustomer(id, values){ // Altera dados de um cliente de id específico por meio do verbo PATCH.
         const query = `
-        UPDATE 'CUSTOMER' SET ? WHERE CCUSTOMER_ID = ?
+        UPDATE 'CUSTOMER' SET (CPF, FIRST_NAME, LAST_NAME, AGENCY, COUNT_NUMBER, BANK_BALANCE) = (?,?,?,?,?,?) WHERE CUSTOMER_ID = ?
         `
-        conection.query(query, [values, id], (e, result) => {
-            if(e){
-                return e
-            } else {
-                return {result, ...values, id}
-            }
+        return new Promise((resolve, reject) => {
+            conection.all(query, [...Object.values(values), id], (e) => {
+                if(e){
+                    reject({ "mensagem": e.message, "error": true })
+                } else {
+                    resolve({id, values})
+                }
+            })
         })
     }
     static deleteCustomer(id){ // Excluí o cliente de um id específico por meio do verbo DELETE.
         const query = `
         DELETE FROM 'CUSTOMER' WHERE CUSTOMER_ID = ?
         `
-        conection.query(query, id, (e, result) => {
-            if(e){
-                return e
-            } else {
-                return {result, id}
-            }
+        return new Promise((resolve, reject) => {
+            conection.all(query, id, (e, result) => {
+                if(e){
+                    reject({ "mensagem": e.message, "error": true })
+                } else {
+                    resolve({result, id})
+                }
+            })
         })
     }
 }

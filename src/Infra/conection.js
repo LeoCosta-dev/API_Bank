@@ -1,14 +1,15 @@
-require('dotenv').config()
-//importação do mysql
-const mysql = require('mysql2');
-//configuração da conexão do mysql
-const conection = mysql.createConnection({
-    host: process.env.HOSTNAME_BD,
-    port: 3306,
-    user: process.env.LOGIN_BD,
-    password: process.env.SENHA_BD,
-    database: process.env.BANCO_DE_DADOS
-});
+const sqlite3 = require("sqlite3").verbose()
+const path = require("path")
+const pathArchive = path.resolve(__dirname, 'database.db')
+const CreateTable = require('./createTable')
+
+const conection = new sqlite3.Database(pathArchive)
+
+conection.serialize(()=>{
+    CreateTable.init(conection)
+})
+
+
 
 // exportar conexão.
 module.exports = conection;
