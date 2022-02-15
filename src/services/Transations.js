@@ -4,7 +4,7 @@ const Validator = require("./Validator")
 class Transations{
     static deposit(customer, value){
         const customerDestination = new Customer(...Object.values(customer))
-        if(Validator.deposit(value)){
+        if(Validator.deposit(parseInt(value))){
             customerDestination.deposit(value)
             return customerDestination
         } else {
@@ -23,7 +23,7 @@ class Transations{
     static transfer(customerOrigin, customerDestination, value){
         const CustomerOrigin = new Customer(...Object.values(customerOrigin))
         const CustomerDestination = new Customer(...Object.values(customerDestination))
-        if(Validator.transfer(CustomerOrigin, CustomerDestination, value)){
+        if(Validator.transfer(CustomerOrigin, CustomerDestination, value) && value <= customerOrigin.BANK_BALANCE){
             CustomerOrigin.transfer(CustomerDestination, value)
             return {CustomerOrigin, CustomerDestination}
         } else {

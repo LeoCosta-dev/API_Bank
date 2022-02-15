@@ -35,7 +35,7 @@ class Validator{
         }
     }
     static deposit(value){
-        if(value && typeof value == "string" && value <= 2000 && value > 0){
+        if(value && value <= 2000 && value > 0){
             return true
         } else {
             return false
@@ -43,7 +43,7 @@ class Validator{
         
     }
     static bankDraft(value, bankBalance){
-        if(value && typeof value == "string" && value <= bankBalance && value > 0){
+        if(value && value <= bankBalance && value > 0){
             return true
         } else {
             return false

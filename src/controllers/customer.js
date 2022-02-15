@@ -5,7 +5,7 @@ const CustomerDAO = require("../DAO/CustomerDAO")
 module.exports = (app) => {
     app.get('/customer', async (req, res) => {
         try{
-            const list = await CustomerDAO.listCustomer(res)
+            const list = await CustomerDAO.listCustomer()
             res.status(200).json(list)
         } catch (e) {
             res.status(400).json(e.message)
